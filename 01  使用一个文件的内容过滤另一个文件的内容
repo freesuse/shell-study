@@ -1,0 +1,52 @@
+#1 分开写法
+#!/bin/bash
+#过滤gtpr_9626_01.txt文件中和getui_ip.txt文件中相同的内容
+for i in $(cat ./gtpr_9626_01.txt)
+do
+    for j in $(cat ./getui_ip.txt)
+    do
+        if [ $i == $j ]
+        then
+            echo "$i" >> incloude_ip.txt
+        fi
+    done
+done
+
+#!/bin/bash
+#gtpr_9626_01.txt - incloude_ip.txt
+for i in $(cat ./gtpr_9626_01.txt)
+do
+    s = 0
+    for j in $(cat ./incloude_ip.txt)
+    do
+        if [ $i == $j ]
+        then
+            let s+=1
+        fi
+    done
+    if [ $s == 0 ]
+    then
+        echo "$i" >> no_incloude_ip.txt
+    fi
+done
+
+
+#2 综合写法
+#!/bin/bash
+for i in $(cat ./gtpr_9626_01.txt)
+do
+    m=0
+    for j in $(cat ./getui_ip.txt)
+    do
+        if [ $i == $j ]
+        then    #gtpr_9626_01.txt 交集 getui_ip.txt
+            let m+=1
+            echo "$i" >> 2020_incloude_ip.txt
+        fi
+    done
+    if [ $m == 0 ]
+    then    #gtpr_9626_01.txt - getui_ip.txt
+        echo "$i" >> 2020_no_incloude_ip.txt
+    fi
+done
+

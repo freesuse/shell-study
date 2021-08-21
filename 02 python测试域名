@@ -1,0 +1,62 @@
+版本01：基础版本
+import socket
+
+domen_list = [("www.getui.com",80),
+              ("www.getui.com",443),
+              ("www.baidu.com",80),
+              ("sports.sina.com.cnn",443)]
+
+def socket_pool():
+    sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+    sock.settimeout(1)
+    return sock
+
+for domen_tup in domen_list:
+    try:
+        socket_pool().connect(domen_tup)
+        print(socket_pool(),id(socket_pool()))
+        print("{} == ok".format(domen_tup))
+    except Exception as e:
+        print("{} == no".format(domen_tup))
+        print(e)
+else:
+    socket_pool().close()
+
+
+版本02：封装测试
+import socket
+
+class domenTest:
+    def __init__(self, dom_list):
+        self.domen_list = dom_list
+
+    def pool_domem(self):
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(1)
+        return sock
+
+    def done(self):
+        for domen_tup in self.domen_list:
+            try:
+                self.pool_domem().connect(domen_tup)
+                print("{} == ok".format(domen_tup))
+            except Exception as e:
+                print("{} == no".format(domen_tup))
+        else:
+            self.pool_domem().close()
+
+
+domen_lists = [("www.getui.com", 80),
+              ("www.getui.com", 443),
+              ("www.baidu.com", 80),
+              ("sports.sina.com.cnn", 443)]
+
+if __name__ == '__main__':
+    session = domenTest(domen_lists)
+    session.done()
+
+
+版本02：支持代理
+
+
+

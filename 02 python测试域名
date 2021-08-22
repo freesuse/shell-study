@@ -1,4 +1,4 @@
-python版本：python-3.5.3   平台：win10
+python版本：python-3.5.3   平台：win10  代理:squid
 
 版本01：基础版本
 import socket

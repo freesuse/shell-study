@@ -58,7 +58,41 @@ if __name__ == '__main__':
     session.done()
 
 
-版本02：支持代理
+版本02：支持代理(直连squid)
+import urllib.request
 
+class domenTest:
+    def __init__(self, dom_list):
+        self.domen_list = dom_list
+        # 此处配置代理地址
+        self.proxy = {'http': '192.168.207.11:3128',
+                      'https': '192.168.207.11:3128'}
+
+    def pool_proxt(self):
+        proxy_done = urllib.request.ProxyHandler(self.proxy)
+        return proxy_done
+
+    def done(self):
+        for domen_url in self.domen_list:
+            try:
+                openerd = urllib.request.build_opener(self.pool_proxt(), urllib.request.HTTPHandler)
+                urllib.request.install_opener(openerd)
+                # data = urllib.request.urlopen(domen_url)
+                # print(data.read().decode())
+                print("{} == ok".format(domen_url))
+            except Exception as e:
+                print("{} == no".format(domen_url))
+        else:
+            self.pool_proxt().close()
+
+
+domen_lists = ["http://www.getui.com",
+               "https://www.getui.com",
+               "https://www.baidu.com",
+               "https://sports.sina.com.cnn"]
+
+if __name__ == '__main__':
+    session = domenTest(domen_lists)
+    session.done()
 
 
